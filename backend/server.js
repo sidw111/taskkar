@@ -1,13 +1,19 @@
-import express from 'express'
-import cors from 'cors'
-import mongoose from 'mongoose'
+import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import connectDB from "./config/db.js";
+import dotenv from "dotenv";
 
-const app = express()
-app.use(cors())
-app.use(express.json())
+dotenv.config();
+connectDB();
 
-app.get('/',(req,res) => {
-res.send('HELLO WORLD FROM BACKEND OF TASKKAR')
-})
+const app = express();
+app.use(express.json()); //to parse JSON
+app.use(cookieParser()); //for refresh tokens in cookies
+app.use(cors());
 
-app.listen(3000)
+app.get("/", (req, res) => {
+  res.send("TASKKAR API IS RUNNING");
+});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`server running on ${PORT}`));
